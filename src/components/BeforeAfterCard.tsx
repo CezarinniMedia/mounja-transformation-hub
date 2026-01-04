@@ -26,8 +26,8 @@ export function BeforeAfterCard({
           {beforeImage ? (
             <img 
               src={beforeImage} 
-              alt="Antes" 
-              className="w-full aspect-[3/4] object-cover"
+              alt={`${name} antes`}
+              className="w-full aspect-[3/4] object-cover object-top"
             />
           ) : (
             <div className="w-full aspect-[3/4] bg-card flex items-center justify-center">
@@ -42,13 +42,13 @@ export function BeforeAfterCard({
         {/* Divider */}
         <div className="w-0.5 bg-primary" />
         
-        {/* After */}
-        <div className="flex-1 relative">
+        {/* After - with slight zoom to differentiate */}
+        <div className="flex-1 relative overflow-hidden">
           {afterImage ? (
             <img 
               src={afterImage} 
-              alt="Depois" 
-              className="w-full aspect-[3/4] object-cover"
+              alt={`${name} depois`}
+              className="w-full aspect-[3/4] object-cover object-top scale-105"
             />
           ) : (
             <div className="w-full aspect-[3/4] bg-primary/10 flex items-center justify-center">
@@ -61,12 +61,12 @@ export function BeforeAfterCard({
         </div>
       </div>
       
-      {/* Info */}
+      {/* Info - compact for mobile */}
       <div className="p-3 text-center bg-card">
-        <p className="font-semibold text-foreground">
+        <p className="font-semibold text-foreground text-small">
           {name}, {age} anos
         </p>
-        <p className="text-primary font-bold text-lg">
+        <p className="text-primary font-bold">
           {result}
         </p>
       </div>

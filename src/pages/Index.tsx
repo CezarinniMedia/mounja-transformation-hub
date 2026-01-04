@@ -36,6 +36,17 @@ import testimonial4 from "@/assets/testimonial-4.jpeg";
 import testimonial5 from "@/assets/testimonial-5.jpeg";
 import testimonial6 from "@/assets/testimonial-6.jpeg";
 
+import alessandraPhoto from "@/assets/alessandra-silva.jpeg";
+
+import renataBefore from "@/assets/before-after/renata-before.jpeg";
+import renataAfter from "@/assets/before-after/renata-after.jpeg";
+import danielaBefore from "@/assets/before-after/daniela-before.jpeg";
+import danielaAfter from "@/assets/before-after/daniela-after.jpeg";
+import patriciaBefore from "@/assets/before-after/patricia-before.jpeg";
+import patriciaAfter from "@/assets/before-after/patricia-after.jpeg";
+import elianeBefore from "@/assets/before-after/eliane-before.jpeg";
+import elianeAfter from "@/assets/before-after/eliane-after.jpeg";
+
 const testimonials = [
   {
     name: "Márcia Oliveira",
@@ -82,10 +93,10 @@ const testimonials = [
 ];
 
 const beforeAfter = [
-  { name: "Renata", age: 43, result: "-12kg em 45 dias" },
-  { name: "Daniela", age: 51, result: "-17kg em 60 dias" },
-  { name: "Patrícia", age: 39, result: "-9kg em 30 dias" },
-  { name: "Eliane", age: 48, result: "-14kg em 50 dias" },
+  { name: "Renata", age: 43, result: "-12kg em 45 dias", beforeImage: renataBefore, afterImage: renataAfter },
+  { name: "Daniela", age: 51, result: "-17kg em 60 dias", beforeImage: danielaBefore, afterImage: danielaAfter },
+  { name: "Patrícia", age: 39, result: "-9kg em 30 dias", beforeImage: patriciaBefore, afterImage: patriciaAfter },
+  { name: "Eliane", age: 48, result: "-14kg em 50 dias", beforeImage: elianeBefore, afterImage: elianeAfter },
 ];
 
 const faqItems = [
@@ -174,29 +185,29 @@ export default function Index() {
             </div>
 
             {/* Pre-headline */}
-            <p className="text-center text-small text-muted-foreground">
+            <p className="text-center text-small text-muted-foreground px-2">
               Para mulheres que já tentaram de tudo e estão cansadas de gastar fortunas sem resultado
             </p>
 
             {/* Headline */}
-            <h1 className="text-hero-sm md:text-hero text-center text-foreground leading-tight">
+            <h1 className="text-hero-sm md:text-hero text-center text-foreground leading-tight px-2">
               A Bebida de R$ 6 Que Faz o Mesmo Que a{" "}
               <span className="text-primary">Caneta de R$ 2.000</span> de Emagrecimento
             </h1>
 
             {/* Sub-headline */}
-            <p className="text-center text-subhero text-muted-foreground">
-              O segredo que a indústria farmacêutica não quer que você saiba
+            <p className="text-center text-subhero text-muted-foreground px-4">
+              O segredo que a indústria farmacêutica não quer que você descubra
             </p>
 
             {/* VSL Player */}
             <VSLPlayer onPitchTimeReached={handlePitchTimeReached} />
 
             {/* Anchor text */}
-            <p className="flex items-center justify-center gap-2 text-small text-muted-foreground text-center">
+            <div className="flex items-center justify-center gap-2 text-small text-muted-foreground">
               <Play className="w-4 h-4 flex-shrink-0" />
-              <span>Assista até o final para liberar a oferta</span>
-            </p>
+              <span>Assista até o final</span>
+            </div>
           </div>
         </section>
 
@@ -219,7 +230,7 @@ export default function Index() {
             <div className="flex justify-center">
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-destructive text-destructive-foreground rounded-full">
                 <AlertTriangle className="w-4 h-4" />
-                <span className="text-small font-semibold">OFERTA POR TEMPO LIMITADO</span>
+                <span className="text-small font-semibold">OFERTA LIMITADA</span>
               </div>
             </div>
 
@@ -244,14 +255,9 @@ export default function Index() {
             </h2>
 
             {/* Swipe hint */}
-            <div className="flex items-center justify-center gap-2 text-muted-foreground">
-              <div className="flex gap-1">
-                <span className="w-2 h-2 rounded-full bg-primary" />
-                <span className="w-2 h-2 rounded-full bg-border" />
-                <span className="w-2 h-2 rounded-full bg-border" />
-              </div>
+            <div className="flex items-center justify-center gap-3 text-muted-foreground">
               <span className="text-small">Arraste para ver mais</span>
-              <span className="text-lg">→</span>
+              <span className="text-primary animate-pulse">→</span>
             </div>
 
             {/* Horizontal scroll carousel */}
@@ -268,12 +274,12 @@ export default function Index() {
         {/* Before/After Section */}
         <section className="py-8 px-4 bg-card">
           <div className="container max-w-lg mx-auto space-y-5">
-            <div className="text-center space-y-1">
+            <div className="text-center space-y-2">
               <h2 className="text-xl font-bold text-foreground">
                 Transformações Reais
               </h2>
-              <p className="text-small text-muted-foreground px-4">
-                Mulheres comuns que seguiram o método
+              <p className="text-small text-muted-foreground">
+                Mulheres que seguiram o método
               </p>
             </div>
 
@@ -290,14 +296,18 @@ export default function Index() {
           <div className="container max-w-lg mx-auto space-y-6">
             {/* Doctor info */}
             <div className="flex flex-col items-center text-center gap-4">
-              {/* Avatar placeholder */}
-              <div className="w-24 h-24 rounded-full bg-surface border-2 border-primary/30 flex items-center justify-center">
-                <span className="text-3xl font-bold text-primary">AR</span>
+              {/* Avatar with photo */}
+              <div className="w-24 h-24 rounded-full border-2 border-primary/30 overflow-hidden">
+                <img 
+                  src={alessandraPhoto} 
+                  alt="Dra. Alessandra Silva"
+                  className="w-full h-full object-cover object-top"
+                />
               </div>
 
               <div>
                 <h3 className="text-lg font-bold text-foreground">
-                  Dra. Alessandra Ribeiro
+                  Dra. Alessandra Silva
                 </h3>
                 <p className="text-muted-foreground">
                   Criadora do Método Mounja Natural
@@ -456,15 +466,11 @@ export default function Index() {
           )}
         >
           <div className="container max-w-lg mx-auto space-y-5">
-            {/* Urgency */}
-            <div className="flex items-center justify-center gap-2 text-warning text-center">
-              <Clock className="w-5 h-5 flex-shrink-0" />
-              <span className="font-medium">Oferta por tempo limitado</span>
-            </div>
-
             {/* Recap */}
             <div className="bg-gradient-to-br from-primary/20 to-secondary/10 rounded-2xl border border-primary/30 p-5">
-              <p className="font-semibold text-foreground mb-4">Você vai receber:</p>
+              <p className="font-bold text-lg text-foreground mb-4 text-center">
+                Você vai receber:
+              </p>
               <ul className="space-y-2 mb-5">
                 {[
                   "Método completo em vídeo",
@@ -480,9 +486,16 @@ export default function Index() {
                   </li>
                 ))}
               </ul>
-              <p className="text-center text-lg font-bold text-foreground">
-                Tudo isso por apenas <span className="text-primary">R$ 47,00</span>
-              </p>
+              <div className="text-center py-3 bg-primary/10 rounded-xl">
+                <p className="text-small text-muted-foreground">Tudo isso por apenas</p>
+                <p className="text-2xl font-bold text-primary">R$ 47,00</p>
+              </div>
+            </div>
+
+            {/* Urgency */}
+            <div className="flex items-center justify-center gap-2 text-warning">
+              <Clock className="w-4 h-4 flex-shrink-0" />
+              <span className="text-small font-medium">Oferta por tempo limitado</span>
             </div>
 
             {/* Final CTA */}
@@ -491,7 +504,7 @@ export default function Index() {
             </CTAButton>
 
             <p className="text-center text-small text-muted-foreground">
-              🔒 Compra segura · Acesso imediato
+              🔒 Compra segura · Acesso imediato · Garantia 30 dias
             </p>
           </div>
         </section>
