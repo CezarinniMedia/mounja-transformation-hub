@@ -205,9 +205,13 @@ export default function Checkout() {
 
           {/* Checkout Button */}
           <section>
-            <CTAButton onClick={handleCheckout}>
+            <CTAButton onClick={handleCheckout} showSubtext={false}>
               FINALIZAR MINHA COMPRA
             </CTAButton>
+            <p className="flex items-center justify-center gap-1.5 text-small text-muted-foreground mt-3 text-center">
+              <Lock className="w-3.5 h-3.5 flex-shrink-0" />
+              <span className="whitespace-nowrap">Você será redirecionado para o checkout seguro</span>
+            </p>
           </section>
 
           {/* Urgency */}
