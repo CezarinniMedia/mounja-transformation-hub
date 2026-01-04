@@ -208,9 +208,6 @@ export default function Checkout() {
             <CTAButton onClick={handleCheckout}>
               FINALIZAR MINHA COMPRA
             </CTAButton>
-            <p className="text-center text-small text-muted-foreground mt-3">
-              Você será redirecionado para o checkout seguro
-            </p>
           </section>
 
           {/* Urgency */}
