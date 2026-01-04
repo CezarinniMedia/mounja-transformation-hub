@@ -35,9 +35,9 @@ export const CTAButton = forwardRef<HTMLButtonElement, CTAButtonProps>(
         </button>
         
         {showSubtext && (
-          <p className="flex items-center justify-center gap-2 mt-3 text-small text-muted-foreground">
-            <Lock className="w-4 h-4" />
-            <span>{subtextContent || "Compra 100% Segura • Garantia de 30 Dias"}</span>
+          <p className="flex items-center justify-center gap-1.5 mt-3 text-small text-muted-foreground text-center">
+            <Lock className="w-3.5 h-3.5 flex-shrink-0" />
+            <span className="whitespace-nowrap">{subtextContent || "Compra 100% Segura • Garantia 30 Dias"}</span>
           </p>
         )}
       </div>
