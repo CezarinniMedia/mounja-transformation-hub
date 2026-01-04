@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import sandraCostaImg from "@/assets/sandra-costa.jpeg";
 import { 
   Leaf, 
   Lock, 
@@ -149,9 +150,11 @@ export default function Checkout() {
           {/* Featured Testimonial */}
           <section className="bg-surface rounded-2xl border border-border p-5">
             <div className="flex items-start gap-3 mb-4">
-              <div className="flex-shrink-0 w-12 h-12 rounded-full bg-card flex items-center justify-center border border-border">
-                <span className="text-lg font-semibold text-primary">S</span>
-              </div>
+              <img 
+                src={sandraCostaImg} 
+                alt="Sandra Costa" 
+                className="flex-shrink-0 w-12 h-12 rounded-full object-cover border border-border"
+              />
               <div>
                 <p className="font-semibold text-foreground">Sandra Costa, 52 anos</p>
                 <div className="flex gap-0.5 mt-1">
