@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import sandraCostaImg from "@/assets/sandra-costa.jpeg";
+import productCoverImg from "@/assets/product-cover.png";
 import { 
-  Leaf, 
+  Leaf,
   Lock, 
   Check, 
   ShieldCheck, 
@@ -111,9 +112,11 @@ export default function Checkout() {
             <div className="p-5 space-y-5">
               {/* Product */}
               <div className="flex gap-4">
-                <div className="flex-shrink-0 w-20 h-20 rounded-xl bg-surface border border-border flex items-center justify-center">
-                  <Leaf className="w-10 h-10 text-primary" />
-                </div>
+                <img 
+                  src={productCoverImg} 
+                  alt="Método Mounja Natural" 
+                  className="flex-shrink-0 w-20 h-20 rounded-xl object-cover border border-border"
+                />
                 <div className="flex-1">
                   <h3 className="font-semibold text-foreground">
                     Método Mounja Natural
