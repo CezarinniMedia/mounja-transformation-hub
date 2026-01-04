@@ -54,7 +54,7 @@ export function VSLPlayer({ onPitchTimeReached }: VSLPlayerProps) {
 
   return (
     <div className="relative bg-card border border-border shadow-card p-2 rounded-2xl">
-      <div className="w-full">
+      <div className="w-full relative">
         {/* @ts-ignore - VTurb custom element */}
         <vturb-smartplayer 
           id="vid-69588da7bfcaaae23cccf36e" 

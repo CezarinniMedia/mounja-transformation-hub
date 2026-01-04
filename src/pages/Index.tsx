@@ -204,10 +204,10 @@ export default function Index() {
             <VSLPlayer onPitchTimeReached={handlePitchTimeReached} />
 
             {/* Anchor text */}
-            <div className="flex items-center justify-center gap-2 text-small text-muted-foreground">
+            <p className="text-center text-small text-muted-foreground flex items-center justify-center gap-2">
               <Play className="w-4 h-4 flex-shrink-0" />
-              <span>Assista até o final</span>
-            </div>
+              <span>Assista 90 segundos para liberar sua oferta</span>
+            </p>
           </div>
         </section>
 
@@ -279,7 +279,7 @@ export default function Index() {
                 Transformações Reais
               </h2>
               <p className="text-small text-muted-foreground">
-                Mulheres que seguiram o método
+                Mulheres comuns que seguiram o método
               </p>
             </div>
 
@@ -503,8 +503,8 @@ export default function Index() {
               QUERO COMEÇAR AGORA
             </CTAButton>
 
-            <p className="text-center text-small text-muted-foreground">
-              🔒 Compra segura · Acesso imediato · Garantia 30 dias
+            <p className="text-center text-small text-muted-foreground whitespace-nowrap">
+              🔒 Compra segura · Acesso imediato
             </p>
           </div>
         </section>
