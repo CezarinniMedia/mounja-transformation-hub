@@ -53,12 +53,12 @@ export function VSLPlayer({ onPitchTimeReached }: VSLPlayerProps) {
   }, [onPitchTimeReached]);
 
   return (
-    <div className="relative rounded-2xl overflow-hidden bg-card border border-border shadow-card p-2">
-      <div className="aspect-video w-full rounded-xl overflow-hidden">
+    <div className="relative bg-card border border-border shadow-card p-2 rounded-2xl">
+      <div className="w-full">
         {/* @ts-ignore - VTurb custom element */}
         <vturb-smartplayer 
           id="vid-69588da7bfcaaae23cccf36e" 
-          style={{ display: 'block', margin: '0 auto', width: '100%', maxWidth: '400px' }}
+          style={{ display: 'block', margin: '0 auto', width: '100%' }}
         />
       </div>
     </div>
