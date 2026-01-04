@@ -14,7 +14,144 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      checkins: {
+        Row: {
+          agua_2l: boolean
+          anotacao: string | null
+          cafe: boolean
+          cintura: number | null
+          created_at: string
+          data: string
+          esperou_30min: boolean
+          humor: number | null
+          id: string
+          infusao: boolean
+          peso: number
+          quadril: number | null
+          user_id: string
+        }
+        Insert: {
+          agua_2l?: boolean
+          anotacao?: string | null
+          cafe?: boolean
+          cintura?: number | null
+          created_at?: string
+          data: string
+          esperou_30min?: boolean
+          humor?: number | null
+          id?: string
+          infusao?: boolean
+          peso: number
+          quadril?: number | null
+          user_id: string
+        }
+        Update: {
+          agua_2l?: boolean
+          anotacao?: string | null
+          cafe?: boolean
+          cintura?: number | null
+          created_at?: string
+          data?: string
+          esperou_30min?: boolean
+          humor?: number | null
+          id?: string
+          infusao?: boolean
+          peso?: number
+          quadril?: number | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      conquistas: {
+        Row: {
+          conquista_id: string
+          desbloqueado_em: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          conquista_id: string
+          desbloqueado_em?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          conquista_id?: string
+          desbloqueado_em?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          animacoes: boolean
+          cintura_inicial: number | null
+          created_at: string
+          data_inicio: string
+          id: string
+          meta_peso: number
+          modo: string
+          nome: string
+          notificacoes: boolean
+          peso_inicial: number
+          quadril_inicial: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          animacoes?: boolean
+          cintura_inicial?: number | null
+          created_at?: string
+          data_inicio?: string
+          id?: string
+          meta_peso: number
+          modo?: string
+          nome: string
+          notificacoes?: boolean
+          peso_inicial: number
+          quadril_inicial?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          animacoes?: boolean
+          cintura_inicial?: number | null
+          created_at?: string
+          data_inicio?: string
+          id?: string
+          meta_peso?: number
+          modo?: string
+          nome?: string
+          notificacoes?: boolean
+          peso_inicial?: number
+          quadril_inicial?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      receitas_vistas: {
+        Row: {
+          id: string
+          receita_id: string
+          user_id: string
+          visto_em: string
+        }
+        Insert: {
+          id?: string
+          receita_id: string
+          user_id: string
+          visto_em?: string
+        }
+        Update: {
+          id?: string
+          receita_id?: string
+          user_id?: string
+          visto_em?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
