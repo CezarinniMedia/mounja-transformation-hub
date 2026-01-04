@@ -2,67 +2,36 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import sandraCostaImg from "@/assets/sandra-costa.jpeg";
 import productCoverImg from "@/assets/product-cover.png";
-import { 
-  Leaf,
-  Lock, 
-  Check, 
-  ShieldCheck, 
-  Star, 
-  CreditCard,
-  Eye,
-  AlertTriangle
-} from "lucide-react";
+import { Leaf, Lock, Check, ShieldCheck, Star, CreditCard, Eye, AlertTriangle } from "lucide-react";
 import { CTAButton } from "@/components/CTAButton";
 import { Footer } from "@/components/Footer";
 import { trackInitiateCheckout } from "@/utils/tracking";
-
 const CHECKOUT_URL = "https://pay.kirvano.com/f1b14723-7021-4dd3-8dbb-3f3fd45ef81b";
-
-const benefits = [
-  "Receita completa passo a passo em vídeo",
-  "Protocolo de 21 dias para resultados máximos",
-  "Guia de ingredientes e onde comprar",
-  "Acesso ao app exclusivo",
-  "Suporte via WhatsApp por 30 dias",
-  "BÔNUS: Protocolo anti-flacidez",
-  "BÔNUS: Chá detox para manchas",
-  "BÔNUS: Receitas de sucos emagrecedores",
-];
-
-const faqItems = [
-  {
-    question: "O pagamento é seguro?",
-    answer: "Sim! Usamos a Kirvano, uma das maiores plataformas de pagamento do Brasil, com criptografia bancária de 256 bits.",
-  },
-  {
-    question: "Como vou receber o acesso?",
-    answer: "Imediatamente após a confirmação do pagamento, você receberá um email com suas credenciais de acesso à área de membros.",
-  },
-  {
-    question: "E se eu não gostar?",
-    answer: "Você tem 30 dias de garantia incondicional. Devolvemos 100% do seu dinheiro sem perguntas.",
-  },
-];
-
+const benefits = ["Receita completa passo a passo em vídeo", "Protocolo de 21 dias para resultados máximos", "Guia de ingredientes e onde comprar", "Acesso ao app exclusivo", "Suporte via WhatsApp por 30 dias", "BÔNUS: Protocolo anti-flacidez", "BÔNUS: Chá detox para manchas", "BÔNUS: Receitas de sucos emagrecedores"];
+const faqItems = [{
+  question: "O pagamento é seguro?",
+  answer: "Sim! Usamos a Kirvano, uma das maiores plataformas de pagamento do Brasil, com criptografia bancária de 256 bits."
+}, {
+  question: "Como vou receber o acesso?",
+  answer: "Imediatamente após a confirmação do pagamento, você receberá um email com suas credenciais de acesso à área de membros."
+}, {
+  question: "E se eu não gostar?",
+  answer: "Você tem 30 dias de garantia incondicional. Devolvemos 100% do seu dinheiro sem perguntas."
+}];
 export default function Checkout() {
   const [viewersCount, setViewersCount] = useState(127);
-
   useEffect(() => {
     // Randomize viewers count between 89-156
     const interval = setInterval(() => {
       setViewersCount(Math.floor(Math.random() * (156 - 89 + 1)) + 89);
     }, 5000);
-
     return () => clearInterval(interval);
   }, []);
-
   const handleCheckout = () => {
     trackInitiateCheckout();
     window.location.href = CHECKOUT_URL;
   };
-
-  return (
-    <div className="min-h-screen bg-background">
+  return <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
         <div className="container flex items-center justify-between h-14 px-4">
@@ -112,11 +81,7 @@ export default function Checkout() {
             <div className="p-5 space-y-5">
               {/* Product */}
               <div className="flex gap-4">
-                <img 
-                  src={productCoverImg} 
-                  alt="Método Mounja Natural" 
-                  className="flex-shrink-0 w-20 h-20 rounded-xl object-cover border border-border"
-                />
+                <img src={productCoverImg} alt="Método Mounja Natural" className="flex-shrink-0 w-20 h-20 rounded-xl object-cover border border-border" />
                 <div className="flex-1">
                   <h3 className="font-semibold text-foreground">
                     Método Mounja Natural
@@ -129,12 +94,10 @@ export default function Checkout() {
 
               {/* Benefits */}
               <div className="space-y-2">
-                {benefits.map((benefit, index) => (
-                  <div key={index} className="flex items-start gap-2">
+                {benefits.map((benefit, index) => <div key={index} className="flex items-start gap-2">
                     <Check className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
                     <span className="text-small text-foreground">{benefit}</span>
-                  </div>
-                ))}
+                  </div>)}
               </div>
 
               {/* Price */}
@@ -153,24 +116,15 @@ export default function Checkout() {
           {/* Featured Testimonial */}
           <section className="bg-surface rounded-2xl border border-border p-5">
             <div className="flex items-start gap-3 mb-4">
-              <img 
-                src={sandraCostaImg} 
-                alt="Sandra Costa" 
-                className="flex-shrink-0 w-12 h-12 rounded-full object-cover border border-border"
-              />
+              <img src={sandraCostaImg} alt="Sandra Costa" className="flex-shrink-0 w-12 h-12 rounded-full object-cover border border-border" />
               <div>
                 <p className="font-semibold text-foreground">Sandra Costa, 52 anos</p>
                 <div className="flex gap-0.5 mt-1">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-3 h-3 fill-warning text-warning" />
-                  ))}
+                  {[...Array(5)].map((_, i) => <Star key={i} className="w-3 h-3 fill-warning text-warning" />)}
                 </div>
               </div>
             </div>
-            <p className="text-foreground italic">
-              "Gastei mais de R$ 3.000 em nutricionista e academia sem resultado. 
-              Com o Mounja Natural gastei R$ 37 e perdi mais peso do que em 2 anos de luta. É surreal!"
-            </p>
+            <p className="text-foreground italic">"Gastei mais de R$ 3.000 em nutricionista e academia sem resultado. Com o Mounja Natural gastei R$ 47 e perdi mais peso do que em 2 anos de luta. É surreal!"</p>
             <p className="text-primary font-semibold mt-3">Resultado: -18kg em 60 dias</p>
           </section>
 
@@ -237,17 +191,14 @@ export default function Checkout() {
             <h3 className="font-semibold text-foreground text-center">
               Dúvidas Frequentes
             </h3>
-            {faqItems.map((item, index) => (
-              <div key={index} className="bg-card rounded-xl border border-border p-4">
+            {faqItems.map((item, index) => <div key={index} className="bg-card rounded-xl border border-border p-4">
                 <p className="font-medium text-foreground mb-2">{item.question}</p>
                 <p className="text-small text-muted-foreground">{item.answer}</p>
-              </div>
-            ))}
+              </div>)}
           </section>
         </div>
       </main>
 
       <Footer />
-    </div>
-  );
+    </div>;
 }
