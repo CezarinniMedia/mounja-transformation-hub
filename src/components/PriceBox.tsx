@@ -35,10 +35,10 @@ export function PriceBox({ showFullList = true }: PriceBoxProps) {
               De R$ 197,00
             </p>
             <p className="text-3xl font-bold text-foreground">
-              Por apenas <span className="text-primary">R$ 37,90</span>
+              Por apenas <span className="text-primary">R$ 47,00</span>
             </p>
             <p className="text-small text-muted-foreground">
-              ou 6x de R$ 7,32 sem juros
+              ou 11x de R$ 5,17 sem juros
             </p>
           </div>
         </div>
