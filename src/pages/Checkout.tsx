@@ -216,10 +216,10 @@ export default function Checkout() {
 
           {/* Urgency */}
           <section className="bg-warning/10 border border-warning/20 rounded-xl p-4 space-y-2">
-            <div className="flex items-center justify-center gap-2 text-warning">
+            <p className="flex items-center justify-center gap-1.5 text-warning text-small font-medium text-center">
               <AlertTriangle className="w-4 h-4 flex-shrink-0" />
-              <span className="font-medium text-small">Preço promocional por tempo limitado</span>
-            </div>
+              <span>Preço promocional por tempo limitado</span>
+            </p>
             
             <div className="flex items-center justify-center gap-1.5 text-muted-foreground">
               <Eye className="w-3.5 h-3.5 flex-shrink-0" />
