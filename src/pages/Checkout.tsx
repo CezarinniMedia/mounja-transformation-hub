@@ -215,16 +215,16 @@ export default function Checkout() {
           </section>
 
           {/* Urgency */}
-          <section className="space-y-3">
+          <section className="bg-warning/10 border border-warning/20 rounded-xl p-4 space-y-2">
             <div className="flex items-center justify-center gap-2 text-warning">
-              <AlertTriangle className="w-5 h-5" />
-              <span className="font-medium">Preço promocional por tempo limitado</span>
+              <AlertTriangle className="w-4 h-4 flex-shrink-0" />
+              <span className="font-medium text-small">Preço promocional por tempo limitado</span>
             </div>
             
-            <div className="flex items-center justify-center gap-2 text-muted-foreground">
-              <Eye className="w-4 h-4" />
-              <span className="text-small">
-                Mais de <span className="text-primary font-semibold">{viewersCount}</span> pessoas estão vendo esta página agora
+            <div className="flex items-center justify-center gap-1.5 text-muted-foreground">
+              <Eye className="w-3.5 h-3.5 flex-shrink-0" />
+              <span className="text-xs">
+                <span className="text-primary font-semibold">{viewersCount}</span> pessoas vendo agora
               </span>
             </div>
           </section>
