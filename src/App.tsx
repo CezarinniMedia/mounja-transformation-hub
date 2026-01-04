@@ -10,6 +10,7 @@ import Termos from "./pages/Termos";
 import Privacidade from "./pages/Privacidade";
 import Contato from "./pages/Contato";
 import NotFound from "./pages/NotFound";
+import { MounjaApp } from "./app/MounjaApp";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +27,7 @@ const App = () => (
           <Route path="/termos" element={<Termos />} />
           <Route path="/privacidade" element={<Privacidade />} />
           <Route path="/contato" element={<Contato />} />
+          <Route path="/app/*" element={<MounjaApp />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
