@@ -138,8 +138,8 @@ export default function Checkout() {
                 <div className="flex items-center justify-between">
                   <span className="text-muted-foreground line-through">De R$ 197,00</span>
                   <div className="text-right">
-                    <p className="text-2xl font-bold text-primary">R$ 37,90</p>
-                    <p className="text-small text-muted-foreground">ou 6x de R$ 7,32</p>
+                    <p className="text-2xl font-bold text-primary">R$ 47,00</p>
+                    <p className="text-small text-muted-foreground">ou 11x de R$ 5,17</p>
                   </div>
                 </div>
               </div>

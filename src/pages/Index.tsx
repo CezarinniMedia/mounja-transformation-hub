@@ -29,42 +29,55 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+import testimonial1 from "@/assets/testimonial-1.jpeg";
+import testimonial2 from "@/assets/testimonial-2.jpeg";
+import testimonial3 from "@/assets/testimonial-3.jpeg";
+import testimonial4 from "@/assets/testimonial-4.jpeg";
+import testimonial5 from "@/assets/testimonial-5.jpeg";
+import testimonial6 from "@/assets/testimonial-6.jpeg";
+
 const testimonials = [
   {
     name: "Márcia Oliveira",
     age: 47,
     city: "São Paulo, SP",
     text: "Perdi 14kg em 6 semanas! Meu marido não acredita na transformação. Voltei a usar roupas que estavam guardadas há 5 anos. Obrigada, Alessandra!",
+    image: testimonial1,
   },
   {
     name: "Sandra Costa",
     age: 52,
     city: "Rio de Janeiro, RJ",
     text: "Gastei mais de R$ 3.000 em nutricionista e academia sem resultado. Com o Mounja Natural gastei R$ 37 e perdi mais peso do que em 2 anos de luta. É surreal!",
+    image: testimonial2,
   },
   {
     name: "Ana Paula Ferreira",
     age: 41,
     city: "Belo Horizonte, MG",
     text: "Minha médica perguntou o que eu estava fazendo porque meus exames melhoraram muito. Colesterol e glicose normalizaram junto com a perda de peso!",
+    image: testimonial3,
   },
   {
     name: "Luciana Mendes",
     age: 38,
     city: "Curitiba, PR",
     text: "Eu tinha vergonha de sair de casa. Hoje posto foto de biquíni! Perdi 11kg em 1 mês e meio. Minhas amigas estão morrendo de inveja 😂",
+    image: testimonial4,
   },
   {
     name: "Fátima Rodrigues",
     age: 55,
     city: "Salvador, BA",
     text: "Com 55 anos eu achava que não tinha mais jeito. Estava errada. O método funciona em qualquer idade! Perdi 9kg e minha disposição voltou.",
+    image: testimonial5,
   },
   {
     name: "Cristiane Lima",
     age: 44,
     city: "Brasília, DF",
     text: "Meu marido voltou a me olhar diferente. Ele não fala, mas eu sinto. E a esposa do meu pastor que vivia se exibindo? Agora EU sou mais magra que ela!",
+    image: testimonial6,
   },
 ];
 
@@ -106,12 +119,12 @@ const faqItems = [
   },
   {
     question: "Posso parcelar?",
-    answer: "Sim! Você pode parcelar em até 6x de R$ 7,32 sem juros no cartão de crédito, ou pagar à vista via PIX com desconto.",
+    answer: "Sim! Você pode parcelar em até 11x de R$ 5,17 sem juros no cartão de crédito, ou pagar à vista via PIX com desconto.",
   },
 ];
 
 const comparisonData = [
-  { criteria: "Preço mensal", mounjaro: "R$ 2.000+", natural: "R$ 37,90 (único)" },
+  { criteria: "Preço mensal", mounjaro: "R$ 2.000+", natural: "R$ 47,00 (único)" },
   { criteria: "Aplicação", mounjaro: "Injeção semanal", natural: "Bebida natural" },
   { criteria: "Efeitos colaterais", mounjaro: "Náusea, diarreia", natural: "Nenhum" },
   { criteria: "Receita médica", mounjaro: "Obrigatória", natural: "Não precisa" },
@@ -168,21 +181,21 @@ export default function Index() {
             {/* Headline */}
             <h1 className="text-hero-sm md:text-hero text-center text-foreground leading-tight">
               A Bebida de R$ 6 Que Faz o Mesmo Que a{" "}
-              <span className="text-primary">Caneta de R$ 2.000</span> da Suzana Vieira
+              <span className="text-primary">Caneta de R$ 2.000</span> de Emagrecimento
             </h1>
 
             {/* Sub-headline */}
             <p className="text-center text-subhero text-muted-foreground">
-              Descubra o segredo que a indústria farmacêutica não quer que você saiba
+              O segredo que a indústria farmacêutica não quer que você saiba
             </p>
 
             {/* VSL Player */}
             <VSLPlayer onPitchTimeReached={handlePitchTimeReached} />
 
             {/* Anchor text */}
-            <p className="flex items-center justify-center gap-2 text-small text-muted-foreground">
-              <Play className="w-4 h-4" />
-              <span>Assista até o final para liberar sua oferta especial</span>
+            <p className="flex items-center justify-center gap-2 text-small text-muted-foreground text-center">
+              <Play className="w-4 h-4 flex-shrink-0" />
+              <span>Assista até o final para liberar a oferta</span>
             </p>
           </div>
         </section>
@@ -225,10 +238,21 @@ export default function Index() {
 
         {/* Testimonials Section */}
         <section className="py-8 px-4">
-          <div className="container max-w-lg mx-auto space-y-5">
+          <div className="container max-w-lg mx-auto space-y-4">
             <h2 className="text-xl font-bold text-center text-foreground">
               Veja o Que Estão Dizendo:
             </h2>
+
+            {/* Swipe hint */}
+            <div className="flex items-center justify-center gap-2 text-muted-foreground">
+              <div className="flex gap-1">
+                <span className="w-2 h-2 rounded-full bg-primary" />
+                <span className="w-2 h-2 rounded-full bg-border" />
+                <span className="w-2 h-2 rounded-full bg-border" />
+              </div>
+              <span className="text-small">Arraste para ver mais</span>
+              <span className="text-lg">→</span>
+            </div>
 
             {/* Horizontal scroll carousel */}
             <div className="overflow-x-auto scrollbar-hide -mx-4 px-4">
@@ -244,16 +268,16 @@ export default function Index() {
         {/* Before/After Section */}
         <section className="py-8 px-4 bg-card">
           <div className="container max-w-lg mx-auto space-y-5">
-            <div className="text-center space-y-2">
+            <div className="text-center space-y-1">
               <h2 className="text-xl font-bold text-foreground">
                 Transformações Reais
               </h2>
-              <p className="text-small text-muted-foreground">
-                Resultados de mulheres comuns que seguiram o método
+              <p className="text-small text-muted-foreground px-4">
+                Mulheres comuns que seguiram o método
               </p>
             </div>
 
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 gap-4">
               {beforeAfter.map((item, index) => (
                 <BeforeAfterCard key={index} {...item} />
               ))}
@@ -285,7 +309,7 @@ export default function Index() {
             <div className="grid grid-cols-2 gap-3">
               {[
                 { icon: GraduationCap, text: "Mestre e Doutora pela PUC" },
-                { icon: Medal, text: "Ex-Diretora do Comitê Olímpico" },
+                { icon: Medal, text: "Diretora do Comitê Olímpico" },
                 { icon: BookOpen, text: "25+ anos de experiência" },
                 { icon: Users, text: "47.000+ mulheres transformadas" },
               ].map((cred, index) => (
@@ -433,9 +457,9 @@ export default function Index() {
         >
           <div className="container max-w-lg mx-auto space-y-5">
             {/* Urgency */}
-            <div className="flex items-center justify-center gap-2 text-warning">
-              <Clock className="w-5 h-5" />
-              <span className="font-medium">Essa oferta pode sair do ar a qualquer momento</span>
+            <div className="flex items-center justify-center gap-2 text-warning text-center">
+              <Clock className="w-5 h-5 flex-shrink-0" />
+              <span className="font-medium">Oferta por tempo limitado</span>
             </div>
 
             {/* Recap */}
@@ -457,7 +481,7 @@ export default function Index() {
                 ))}
               </ul>
               <p className="text-center text-lg font-bold text-foreground">
-                Tudo isso por apenas <span className="text-primary">R$ 37,90</span>
+                Tudo isso por apenas <span className="text-primary">R$ 47,00</span>
               </p>
             </div>
 
@@ -467,7 +491,7 @@ export default function Index() {
             </CTAButton>
 
             <p className="text-center text-small text-muted-foreground">
-              🔒 Compra segura • Acesso imediato • Garantia de 30 dias
+              🔒 Compra segura · Acesso imediato
             </p>
           </div>
         </section>

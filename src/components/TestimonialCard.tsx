@@ -6,10 +6,11 @@ interface TestimonialCardProps {
   age: number;
   city: string;
   text: string;
+  image?: string;
   className?: string;
 }
 
-export function TestimonialCard({ name, age, city, text, className }: TestimonialCardProps) {
+export function TestimonialCard({ name, age, city, text, image, className }: TestimonialCardProps) {
   return (
     <div
       className={cn(
@@ -20,11 +21,21 @@ export function TestimonialCard({ name, age, city, text, className }: Testimonia
     >
       {/* Header */}
       <div className="flex items-start gap-3">
-        {/* Avatar placeholder */}
-        <div className="flex-shrink-0 w-12 h-12 rounded-full bg-card flex items-center justify-center border border-border">
-          <span className="text-lg font-semibold text-primary">
-            {name.charAt(0)}
-          </span>
+        {/* Avatar */}
+        <div className="flex-shrink-0 w-12 h-12 rounded-full bg-card border border-border overflow-hidden">
+          {image ? (
+            <img 
+              src={image} 
+              alt={name} 
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center">
+              <span className="text-lg font-semibold text-primary">
+                {name.charAt(0)}
+              </span>
+            </div>
+          )}
         </div>
         
         <div className="flex-1 min-w-0">

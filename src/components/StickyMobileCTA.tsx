@@ -41,7 +41,7 @@ export function StickyMobileCTA({ isVisible }: StickyMobileCTAProps) {
         onClick={handleClick}
         className="w-full bg-gradient-cta text-primary-foreground font-bold py-4 px-6 rounded-xl shadow-cta animate-pulse-cta"
       >
-        QUERO EMAGRECER • R$ 37,90
+        QUERO EMAGRECER · R$ 47,00
       </button>
     </div>
   );
