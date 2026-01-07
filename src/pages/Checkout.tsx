@@ -2,60 +2,28 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import sandraCostaImg from "@/assets/sandra-costa.jpeg";
 import productCoverImg from "@/assets/product-cover.png";
-import {
-  Leaf,
-  Lock,
-  Check,
-  ShieldCheck,
-  Star,
-  CreditCard,
-  Eye,
-  AlertTriangle,
-} from "lucide-react";
+import { Leaf, Lock, Check, ShieldCheck, Star, CreditCard, Eye, AlertTriangle } from "lucide-react";
 import { CTAButton } from "@/components/CTAButton";
 import { Footer } from "@/components/Footer";
 import { trackInitiateCheckout } from "@/utils/tracking";
-
-const CHECKOUT_URL =
-  "https://pay.kirvano.com/f1b14723-7021-4dd3-8dbb-3f3fd45ef81b";
-
-const benefits = [
-  "Receita completa passo a passo em vídeo",
-  "Protocolo de 21 dias para resultados máximos",
-  "Guia de ingredientes e onde comprar",
-  "Acesso ao app exclusivo",
-  "Suporte via WhatsApp",
-  "BÔNUS: Protocolo anti-flacidez",
-  "BÔNUS: Chá detox para manchas",
-  "BÔNUS: Receitas de sucos emagrecedores",
-];
-
-const faqItems = [
-  {
-    question: "O pagamento é seguro?",
-    answer:
-      "Sim! Usamos a Kirvano, uma das maiores plataformas de pagamento do Brasil, com criptografia bancária de 256 bits.",
-  },
-  {
-    question: "Como vou receber o acesso?",
-    answer:
-      "Imediatamente após a confirmação do pagamento, você receberá um email com suas credenciais de acesso à área de membros.",
-  },
-  {
-    question: "E se eu não gostar?",
-    answer:
-      "Você tem 30 dias de garantia incondicional. Devolvemos 100% do seu dinheiro sem perguntas.",
-  },
-];
-
+const CHECKOUT_URL = "https://pay.kirvano.com/f1b14723-7021-4dd3-8dbb-3f3fd45ef81b";
+const benefits = ["Receita completa passo a passo em vídeo", "Protocolo de 21 dias para resultados máximos", "Guia de ingredientes e onde comprar", "Acesso ao app exclusivo", "Suporte via WhatsApp por 30 dias", "BÔNUS: Protocolo anti-flacidez", "BÔNUS: Chá detox para manchas", "BÔNUS: Receitas de sucos emagrecedores"];
+const faqItems = [{
+  question: "O pagamento é seguro?",
+  answer: "Sim! Usamos a Kirvano, uma das maiores plataformas de pagamento do Brasil, com criptografia bancária de 256 bits."
+}, {
+  question: "Como vou receber o acesso?",
+  answer: "Imediatamente após a confirmação do pagamento, você receberá um email com suas credenciais de acesso à área de membros."
+}, {
+  question: "E se eu não gostar?",
+  answer: "Você tem 30 dias de garantia incondicional. Devolvemos 100% do seu dinheiro sem perguntas."
+}];
 export default function Checkout() {
   const [viewersCount, setViewersCount] = useState(127);
-
   const currentQuery = useMemo(() => {
     if (typeof window === "undefined") return "";
     return window.location.search || "";
   }, []);
-
   useEffect(() => {
     // Randomize viewers count between 89-156
     const interval = setInterval(() => {
@@ -63,17 +31,11 @@ export default function Checkout() {
     }, 5000);
     return () => clearInterval(interval);
   }, []);
-
   const handleCheckout = () => {
     trackInitiateCheckout();
 
     // Preserve UTMs/query string when redirecting to the payment page (important for attribution)
-    const url =
-      CHECKOUT_URL +
-      (currentQuery
-        ? (CHECKOUT_URL.includes("?") ? "&" : "?") + currentQuery.replace(/^\?/, "")
-        : "");
-
+    const url = CHECKOUT_URL + (currentQuery ? (CHECKOUT_URL.includes("?") ? "&" : "?") + currentQuery.replace(/^\?/, "") : "");
     window.location.href = url;
   };
   return <div className="min-h-screen bg-background">
@@ -128,9 +90,7 @@ export default function Checkout() {
               <div className="flex gap-4">
                 <img src={productCoverImg} alt="Método Mounja Natural" className="flex-shrink-0 w-20 h-20 rounded-xl object-cover border border-border" />
                 <div className="flex-1">
-                  <h3 className="font-semibold text-foreground">
-                    Método Mounja Natural
-                  </h3>
+                  <h3 className="font-semibold text-foreground">Método Mounja Natural - Piscina de Ácido</h3>
                   <p className="text-small text-muted-foreground">
                     Acesso Completo + Bônus
                   </p>
