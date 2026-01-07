@@ -12,7 +12,7 @@ export function VSLPlayer({ onPitchTimeReached }: VSLPlayerProps) {
     // Load VTurb script
     if (!scriptLoaded.current) {
       const script = document.createElement("script");
-      script.src = "https://scripts.converteai.net/dfa4d91e-b35a-4522-a5e2-a962ca21e730/players/69588da7bfcaaae23cccf36e/v4/player.js";
+      script.src = "https://scripts.converteai.net/dfa4d91e-b35a-4522-a5e2-a962ca21e730/players/695da2ecd57dbf7832670264/v4/player.js";
       script.async = true;
       document.head.appendChild(script);
       scriptLoaded.current = true;
@@ -57,7 +57,7 @@ export function VSLPlayer({ onPitchTimeReached }: VSLPlayerProps) {
       <div className="w-full relative">
         {/* @ts-ignore - VTurb custom element */}
         <vturb-smartplayer 
-          id="vid-69588da7bfcaaae23cccf36e" 
+          id="vid-695da2ecd57dbf7832670264" 
           style={{ display: 'block', margin: '0 auto', width: '100%' }}
         />
       </div>
