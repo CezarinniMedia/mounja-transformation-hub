@@ -86,11 +86,17 @@ export function VSLPlayer({ onPitchTimeReached }: VSLPlayerProps) {
 
     window.addEventListener('message', handleMessage);
 
-    // NO fallback timer - only show when VTurb button appears
-    // Remove fallback to ensure buttons only appear with VTurb CTA
+    // Fallback timer - show CTA after 90 seconds if VTurb event is not detected
+    const fallbackTimer = setTimeout(() => {
+      if (!pitchReached.current) {
+        pitchReached.current = true;
+        onPitchTimeReached?.();
+      }
+    }, 90000); // 90 seconds
 
     return () => {
       window.removeEventListener('message', handleMessage);
+      clearTimeout(fallbackTimer);
     };
   }, [onPitchTimeReached]);
 
