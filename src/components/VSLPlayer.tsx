@@ -18,19 +18,25 @@ export function VSLPlayer({ onPitchTimeReached }: VSLPlayerProps) {
       scriptLoaded.current = true;
     }
 
-    // Listen for VTurb progress messages
+    // Listen for VTurb smartplayer events
     const handleMessage = (event: MessageEvent) => {
+      // VTurb sends messages when CTA button appears
       if (event.data && typeof event.data === 'object') {
-        const currentTime = event.data.currentTime || event.data.time || 0;
-        
-        // 6:20 = 380 seconds
-        if (currentTime >= 380 && !pitchReached.current) {
-          pitchReached.current = true;
-          onPitchTimeReached?.();
-          
-          // Track ViewContent event
-          if (typeof window !== 'undefined' && (window as any).fbq) {
-            (window as any).fbq('track', 'ViewContent', { content_name: 'Pitch Reached' });
+        // Check for VTurb CTA show event
+        if (
+          event.data.event === 'ctashow' ||
+          event.data.type === 'ctashow' ||
+          event.data.action === 'ctashow' ||
+          (event.data.smartplayer && event.data.event === 'ctashow')
+        ) {
+          if (!pitchReached.current) {
+            pitchReached.current = true;
+            onPitchTimeReached?.();
+            
+            // Track ViewContent event
+            if (typeof window !== 'undefined' && (window as any).fbq) {
+              (window as any).fbq('track', 'ViewContent', { content_name: 'Pitch Reached' });
+            }
           }
         }
       }
@@ -38,17 +44,11 @@ export function VSLPlayer({ onPitchTimeReached }: VSLPlayerProps) {
 
     window.addEventListener('message', handleMessage);
 
-    // Fallback: reveal CTAs after 6 minutes
-    const fallbackTimer = setTimeout(() => {
-      if (!pitchReached.current) {
-        pitchReached.current = true;
-        onPitchTimeReached?.();
-      }
-    }, 360000);
+    // NO fallback timer - only show when VTurb button appears
+    // Remove fallback to ensure buttons only appear with VTurb CTA
 
     return () => {
       window.removeEventListener('message', handleMessage);
-      clearTimeout(fallbackTimer);
     };
   }, [onPitchTimeReached]);
 
