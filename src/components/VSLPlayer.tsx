@@ -86,13 +86,13 @@ export function VSLPlayer({ onPitchTimeReached }: VSLPlayerProps) {
 
     window.addEventListener('message', handleMessage);
 
-    // Fallback timer - show CTA after 90 seconds if VTurb event is not detected
+    // Fallback timer - show CTA after 6:20 minutes (380 seconds) if VTurb event is not detected
     const fallbackTimer = setTimeout(() => {
       if (!pitchReached.current) {
         pitchReached.current = true;
         onPitchTimeReached?.();
       }
-    }, 90000); // 90 seconds
+    }, 380000); // 6 minutes and 20 seconds
 
     return () => {
       window.removeEventListener('message', handleMessage);
