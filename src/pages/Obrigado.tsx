@@ -3,9 +3,7 @@ import { Link } from "react-router-dom";
 import { 
   Leaf, 
   CheckCircle2,
-  Mail,
   Smartphone,
-  MessageCircle,
   Lightbulb,
   Clock,
   Heart
@@ -65,27 +63,7 @@ export default function Obrigado() {
             </h2>
 
             <div className="space-y-4">
-              {/* Step 1 */}
-              <div className="bg-card rounded-2xl border border-border p-5">
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary flex items-center justify-center">
-                    <Mail className="w-5 h-5 text-primary-foreground" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-foreground mb-1">
-                      📧 Verifique seu email
-                    </h3>
-                    <p className="text-small text-muted-foreground">
-                      Enviamos seu acesso para o email cadastrado
-                    </p>
-                    <p className="text-small text-primary mt-2">
-                      Procure por: "Mounja Natural - Seu Acesso"
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Step 2 */}
+              {/* Acesso à área de membros */}
               <div className="bg-card rounded-2xl border border-border p-5">
                 <div className="flex items-start gap-4">
                   <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary flex items-center justify-center">
@@ -93,34 +71,14 @@ export default function Obrigado() {
                   </div>
                   <div className="flex-1">
                     <h3 className="font-semibold text-foreground mb-1">
-                      📱 Acesse a área de membros
+                      📱 Crie seu cadastro
                     </h3>
                     <p className="text-small text-muted-foreground mb-3">
-                      Seu conteúdo já está disponível
+                      Acesse a área de membros e crie sua conta
                     </p>
-                    <a href="/app" className="block w-full bg-gradient-cta text-primary-foreground font-semibold py-3 px-4 rounded-xl text-center">
-                      ACESSAR MINHA ÁREA
+                    <a href="https://mounjanatural.com.br/app/auth" className="block w-full bg-gradient-cta text-primary-foreground font-semibold py-3 px-4 rounded-xl text-center">
+                      CRIAR MEU CADASTRO
                     </a>
-                  </div>
-                </div>
-              </div>
-
-              {/* Step 3 */}
-              <div className="bg-card rounded-2xl border border-border p-5">
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary flex items-center justify-center">
-                    <MessageCircle className="w-5 h-5 text-primary-foreground" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-foreground mb-1">
-                      💬 Entre no grupo VIP
-                    </h3>
-                    <p className="text-small text-muted-foreground mb-3">
-                      Grupo exclusivo de suporte no WhatsApp
-                    </p>
-                    <button className="w-full bg-surface border border-primary text-primary font-semibold py-3 px-4 rounded-xl hover:bg-primary hover:text-primary-foreground transition-colors">
-                      ENTRAR NO GRUPO
-                    </button>
                   </div>
                 </div>
               </div>
@@ -169,9 +127,8 @@ export default function Obrigado() {
             <h3 className="font-semibold text-foreground mb-3">
               Dúvidas? Estamos aqui!
             </h3>
-            <div className="space-y-2 text-muted-foreground">
-              <p>📧 suporte@mounjanatural.com.br</p>
-              <p>📱 WhatsApp: (11) 99999-9999</p>
+            <div className="text-muted-foreground">
+              <p>📧 mounjanatural@gmail.com</p>
             </div>
           </section>
         </div>
