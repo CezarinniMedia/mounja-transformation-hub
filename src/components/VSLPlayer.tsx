@@ -23,8 +23,8 @@ export function VSLPlayer({ onPitchTimeReached }: VSLPlayerProps) {
       if (event.data && typeof event.data === 'object') {
         const currentTime = event.data.currentTime || event.data.time || 0;
         
-        // 5:39 = 339 seconds
-        if (currentTime >= 339 && !pitchReached.current) {
+        // 6:20 = 380 seconds
+        if (currentTime >= 380 && !pitchReached.current) {
           pitchReached.current = true;
           onPitchTimeReached?.();
           
