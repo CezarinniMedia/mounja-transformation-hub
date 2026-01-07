@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { VSLPlayer } from "@/components/VSLPlayer";
@@ -13,19 +13,19 @@ import { FAQAccordion } from "@/components/FAQAccordion";
 import { GuaranteeSection } from "@/components/GuaranteeSection";
 import { StickyMobileCTA } from "@/components/StickyMobileCTA";
 import { trackInitiateCheckout, trackViewContent } from "@/utils/tracking";
-import { 
-  AlertTriangle, 
-  Play, 
-  GraduationCap, 
-  Medal, 
-  BookOpen, 
+import {
+  AlertTriangle,
+  Play,
+  GraduationCap,
+  Medal,
+  BookOpen,
   Users,
   Beaker,
   Coffee,
   Sparkles,
   Check,
   X,
-  Clock
+  Clock,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -93,44 +93,76 @@ const testimonials = [
 ];
 
 const beforeAfter = [
-  { name: "Renata", age: 43, result: "-12kg em 45 dias", beforeImage: renataBefore, afterImage: renataAfter },
-  { name: "Daniela", age: 51, result: "-17kg em 60 dias", beforeImage: danielaBefore, afterImage: danielaAfter },
-  { name: "Patrícia", age: 39, result: "-9kg em 30 dias", beforeImage: patriciaBefore, afterImage: patriciaAfter },
-  { name: "Eliane", age: 48, result: "-14kg em 50 dias", beforeImage: elianeBefore, afterImage: elianeAfter },
+  {
+    name: "Renata",
+    age: 43,
+    result: "-12kg em 45 dias",
+    beforeImage: renataBefore,
+    afterImage: renataAfter,
+  },
+  {
+    name: "Daniela",
+    age: 51,
+    result: "-17kg em 60 dias",
+    beforeImage: danielaBefore,
+    afterImage: danielaAfter,
+  },
+  {
+    name: "Patrícia",
+    age: 39,
+    result: "-9kg em 30 dias",
+    beforeImage: patriciaBefore,
+    afterImage: patriciaAfter,
+  },
+  {
+    name: "Eliane",
+    age: 48,
+    result: "-14kg em 50 dias",
+    beforeImage: elianeBefore,
+    afterImage: elianeAfter,
+  },
 ];
 
 const faqItems = [
   {
     question: "O Mounja Natural funciona mesmo?",
-    answer: "Sim! Mais de 47.000 mulheres já comprovaram os resultados. O método é baseado em estudos de Harvard sobre a boldina e sua capacidade de impedir a absorção de gordura. Além disso, você tem 30 dias de garantia — se não funcionar, devolvemos seu dinheiro.",
+    answer:
+      "Sim! Mais de 47.000 mulheres já comprovaram os resultados. O método é baseado em estudos de Harvard sobre a boldina e sua capacidade de impedir a absorção de gordura. Além disso, você tem 30 dias de garantia — se não funcionar, devolvemos seu dinheiro.",
   },
   {
     question: "Em quanto tempo vou ver resultados?",
-    answer: "A maioria das mulheres reporta resultados visíveis entre 7 e 14 dias. Resultados mais expressivos (10kg+) geralmente aparecem após 30-45 dias de uso consistente.",
+    answer:
+      "A maioria das mulheres reporta resultados visíveis entre 7 e 14 dias. Resultados mais expressivos (10kg+) geralmente aparecem após 30-45 dias de uso consistente.",
   },
   {
     question: "Tem alguma contraindicação?",
-    answer: "O Mounja Natural é 100% natural e seguro para a maioria das pessoas. Porém, gestantes, lactantes e pessoas com condições médicas específicas devem consultar um médico antes de iniciar.",
+    answer:
+      "O Mounja Natural é 100% natural e seguro para a maioria das pessoas. Porém, gestantes, lactantes e pessoas com condições médicas específicas devem consultar um médico antes de iniciar.",
   },
   {
     question: "Preciso fazer dieta ou exercício?",
-    answer: "Não! O grande diferencial do método é que ele funciona sem dietas restritivas e sem academia. A bebida age impedindo a absorção de gordura, então você pode comer normalmente.",
+    answer:
+      "Não! O grande diferencial do método é que ele funciona sem dietas restritivas e sem academia. A bebida age impedindo a absorção de gordura, então você pode comer normalmente.",
   },
   {
     question: "Como é feita a entrega?",
-    answer: "O acesso é 100% digital e imediato. Assim que o pagamento for confirmado, você recebe no seu email o acesso à área de membros com todos os vídeos, receitas e bônus.",
+    answer:
+      "O acesso é 100% digital e imediato. Assim que o pagamento for confirmado, você recebe no seu email o acesso à área de membros com todos os vídeos, receitas e bônus.",
   },
   {
     question: "O pagamento é seguro?",
-    answer: "Totalmente! Usamos a Kirvano, uma das maiores plataformas de pagamento do Brasil, com a mesma tecnologia de segurança dos grandes bancos. Seus dados estão 100% protegidos.",
+    answer:
+      "Totalmente! Usamos a Kirvano, uma das maiores plataformas de pagamento do Brasil, com a mesma tecnologia de segurança dos grandes bancos. Seus dados estão 100% protegidos.",
   },
   {
     question: "E se não funcionar para mim?",
-    answer: "Você tem 30 dias de garantia incondicional. Se por qualquer motivo você não gostar ou não tiver resultados, basta enviar um email e devolvemos 100% do seu dinheiro. Sem perguntas, sem burocracia.",
+    answer:
+      "Você tem 30 dias de garantia incondicional. Se por qualquer motivo você não gostar ou não tiver resultados, basta enviar um email e devolvemos 100% do seu dinheiro. Sem perguntas, sem burocracia.",
   },
   {
     question: "Posso parcelar?",
-    answer: "Sim! Você pode parcelar em até 11x de R$ 5,17 sem juros no cartão de crédito, ou pagar à vista via PIX com desconto.",
+    answer:
+      "Sim! Você pode parcelar em até 11x de R$ 5,17 sem juros no cartão de crédito, ou pagar à vista via PIX com desconto.",
   },
 ];
 
@@ -145,12 +177,13 @@ const comparisonData = [
 
 export default function Index() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [ctaVisible, setCtaVisible] = useState(false);
 
   useEffect(() => {
     // Track ViewContent after 30 seconds
     const timer = setTimeout(() => {
-      trackViewContent('VSL Page - 30s');
+      trackViewContent("VSL Page - 30s");
     }, 30000);
 
     return () => clearTimeout(timer);
@@ -162,7 +195,8 @@ export default function Index() {
 
   const handleCTAClick = () => {
     trackInitiateCheckout();
-    navigate('/checkout');
+    // Preserve UTMs/query string when going to /checkout (important for attribution)
+    navigate({ pathname: "/checkout", search: location.search });
   };
 
   return (

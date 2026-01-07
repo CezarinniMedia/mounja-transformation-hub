@@ -20,24 +20,62 @@ export function VSLPlayer({ onPitchTimeReached }: VSLPlayerProps) {
 
     // Listen for VTurb smartplayer events
     const handleMessage = (event: MessageEvent) => {
-      // VTurb sends messages when CTA button appears
-      if (event.data && typeof event.data === 'object') {
-        // Check for VTurb CTA show event
-        if (
-          event.data.event === 'ctashow' ||
-          event.data.type === 'ctashow' ||
-          event.data.action === 'ctashow' ||
-          (event.data.smartplayer && event.data.event === 'ctashow')
-        ) {
-          if (!pitchReached.current) {
-            pitchReached.current = true;
-            onPitchTimeReached?.();
-            
-            // Track ViewContent event
-            if (typeof window !== 'undefined' && (window as any).fbq) {
-              (window as any).fbq('track', 'ViewContent', { content_name: 'Pitch Reached' });
+      // VTurb can send postMessage payloads as objects OR strings depending on browser/player
+      const raw = event.data as unknown;
+      const data: unknown = (() => {
+        if (typeof raw === "string") {
+          try {
+            return JSON.parse(raw);
+          } catch {
+            return raw;
+          }
+        }
+        return raw;
+      })();
+
+      const hasCtaShow = (payload: unknown) => {
+        if (!payload) return false;
+
+        // string payload
+        if (typeof payload === "string") {
+          return /ctashow|cta[_\s-]?show/i.test(payload);
+        }
+
+        // object payload
+        if (typeof payload === "object") {
+          const obj = payload as Record<string, any>;
+          const eventName = obj.event ?? obj.type ?? obj.action;
+          if (typeof eventName === "string" && /ctashow|cta[_\s-]?show/i.test(eventName)) {
+            return true;
+          }
+
+          // Some implementations nest the event inside smartplayer
+          if (obj.smartplayer && typeof obj.smartplayer === "object") {
+            const sp = obj.smartplayer as Record<string, any>;
+            const spEvent = sp.event ?? sp.type ?? sp.action;
+            if (typeof spEvent === "string" && /ctashow|cta[_\s-]?show/i.test(spEvent)) {
+              return true;
             }
           }
+
+          // last resort: search inside the payload
+          try {
+            return /ctashow|cta[_\s-]?show/i.test(JSON.stringify(obj));
+          } catch {
+            return false;
+          }
+        }
+
+        return false;
+      };
+
+      if (hasCtaShow(data) && !pitchReached.current) {
+        pitchReached.current = true;
+        onPitchTimeReached?.();
+
+        // Track ViewContent event
+        if (typeof window !== "undefined" && (window as any).fbq) {
+          (window as any).fbq("track", "ViewContent", { content_name: "Pitch Reached" });
         }
       }
     };
