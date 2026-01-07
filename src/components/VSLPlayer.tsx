@@ -73,7 +73,11 @@ export function VSLPlayer({ onPitchTimeReached }: VSLPlayerProps) {
         pitchReached.current = true;
         onPitchTimeReached?.();
 
-        // Track ViewContent event with UTMify
+        // Track with Facebook Pixel
+        if (typeof window !== "undefined" && (window as any).fbq) {
+          (window as any).fbq("track", "ViewContent", { content_name: "Pitch Reached" });
+        }
+        // Track with UTMify
         if (typeof window !== "undefined" && (window as any).Utmify?.sendEvent) {
           (window as any).Utmify.sendEvent("ViewContent", { content_name: "Pitch Reached" });
         }
