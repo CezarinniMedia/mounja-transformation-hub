@@ -98,9 +98,9 @@ export default function Obrigado() {
                     <p className="text-small text-muted-foreground mb-3">
                       Seu conteúdo já está disponível
                     </p>
-                    <button className="w-full bg-gradient-cta text-primary-foreground font-semibold py-3 px-4 rounded-xl">
+                    <a href="/app" className="block w-full bg-gradient-cta text-primary-foreground font-semibold py-3 px-4 rounded-xl text-center">
                       ACESSAR MINHA ÁREA
-                    </button>
+                    </a>
                   </div>
                 </div>
               </div>
