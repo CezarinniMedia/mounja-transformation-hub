@@ -24,7 +24,7 @@ const benefits = [
   "Protocolo de 21 dias para resultados máximos",
   "Guia de ingredientes e onde comprar",
   "Acesso ao app exclusivo",
-  "Suporte via WhatsApp por 30 dias",
+  "Suporte via WhatsApp",
   "BÔNUS: Protocolo anti-flacidez",
   "BÔNUS: Chá detox para manchas",
   "BÔNUS: Receitas de sucos emagrecedores",
