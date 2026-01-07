@@ -1,14 +1,16 @@
-// Facebook Pixel tracking utilities
+// UTMify Pixel tracking utilities
 
 declare global {
   interface Window {
-    fbq: (...args: any[]) => void;
+    Utmify?: {
+      sendEvent: (event: string, params?: Record<string, any>) => void;
+    };
   }
 }
 
 export const trackEvent = (event: string, params?: Record<string, any>) => {
-  if (typeof window !== 'undefined' && window.fbq) {
-    window.fbq('track', event, params);
+  if (typeof window !== 'undefined' && window.Utmify?.sendEvent) {
+    window.Utmify.sendEvent(event, params);
   }
 };
 

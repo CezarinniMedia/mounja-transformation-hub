@@ -18,11 +18,11 @@ export function StickyMobileCTA({ isVisible }: StickyMobileCTAProps) {
   }, [isVisible]);
 
   const handleClick = () => {
-    // Track event
-    if (typeof window !== 'undefined' && (window as any).fbq) {
-      (window as any).fbq('track', 'InitiateCheckout');
+    // Track event with UTMify
+    if (typeof window !== 'undefined' && (window as any).Utmify?.sendEvent) {
+      (window as any).Utmify.sendEvent('InitiateCheckout');
     }
-    navigate('/checkout');
+    navigate('/checkout' + window.location.search);
   };
 
   if (!isVisible) return null;
