@@ -433,8 +433,13 @@ export default function Index() {
           </div>
         </section>
 
-        {/* Comparison Section */}
-        <section className="py-8 px-4">
+        {/* Comparison Section - Hidden until pitch time */}
+        <section 
+          className={cn(
+            "py-8 px-4",
+            !ctaVisible && "hidden"
+          )}
+        >
           <div className="container max-w-lg mx-auto space-y-5">
             <h2 className="text-xl font-bold text-center text-foreground">
               Por Que Escolher o Mounja Natural?
@@ -485,7 +490,15 @@ export default function Index() {
               Perguntas Frequentes
             </h2>
 
-            <FAQAccordion items={faqItems} />
+            <FAQAccordion 
+              items={ctaVisible 
+                ? faqItems 
+                : faqItems.filter(item => 
+                    item.question !== "O pagamento é seguro?" && 
+                    item.question !== "Posso parcelar?"
+                  )
+              } 
+            />
           </div>
         </section>
 
