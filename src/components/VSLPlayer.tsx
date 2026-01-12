@@ -18,89 +18,73 @@ export function VSLPlayer({ onPitchTimeReached }: VSLPlayerProps) {
       scriptLoaded.current = true;
     }
 
-    // Listen for VTurb smartplayer events
-    const handleMessage = (event: MessageEvent) => {
-      // VTurb can send postMessage payloads as objects OR strings depending on browser/player
-      const raw = event.data as unknown;
-      const data: unknown = (() => {
-        if (typeof raw === "string") {
-          try {
-            return JSON.parse(raw);
-          } catch {
-            return raw;
-          }
-        }
-        return raw;
-      })();
+    // Function to trigger pitch reached
+    const triggerPitchReached = () => {
+      if (pitchReached.current) return;
+      pitchReached.current = true;
+      
+      onPitchTimeReached?.();
 
-      const hasCtaShow = (payload: unknown) => {
-        if (!payload) return false;
-
-        // string payload
-        if (typeof payload === "string") {
-          return /ctashow|cta[_\s-]?show/i.test(payload);
-        }
-
-        // object payload
-        if (typeof payload === "object") {
-          const obj = payload as Record<string, any>;
-          const eventName = obj.event ?? obj.type ?? obj.action;
-          if (typeof eventName === "string" && /ctashow|cta[_\s-]?show/i.test(eventName)) {
-            return true;
-          }
-
-          // Some implementations nest the event inside smartplayer
-          if (obj.smartplayer && typeof obj.smartplayer === "object") {
-            const sp = obj.smartplayer as Record<string, any>;
-            const spEvent = sp.event ?? sp.type ?? sp.action;
-            if (typeof spEvent === "string" && /ctashow|cta[_\s-]?show/i.test(spEvent)) {
-              return true;
-            }
-          }
-
-          // last resort: search inside the payload
-          try {
-            return /ctashow|cta[_\s-]?show/i.test(JSON.stringify(obj));
-          } catch {
-            return false;
-          }
-        }
-
-        return false;
-      };
-
-      if (hasCtaShow(data) && !pitchReached.current) {
-        pitchReached.current = true;
-        
-        // Add 10 second delay to sync with VTurb button appearing
-        setTimeout(() => {
-          onPitchTimeReached?.();
-
-          // Track with Facebook Pixel
-          if (typeof window !== "undefined" && (window as any).fbq) {
-            (window as any).fbq("track", "ViewContent", { content_name: "Pitch Reached" });
-          }
-          // Track with UTMify
-          if (typeof window !== "undefined" && (window as any).Utmify?.sendEvent) {
-            (window as any).Utmify.sendEvent("ViewContent", { content_name: "Pitch Reached" });
-          }
-        }, 10000); // 10 seconds delay
+      // Track with Facebook Pixel
+      if (typeof window !== "undefined" && (window as any).fbq) {
+        (window as any).fbq("track", "ViewContent", { content_name: "Pitch Reached" });
+      }
+      // Track with UTMify
+      if (typeof window !== "undefined" && (window as any).Utmify?.sendEvent) {
+        (window as any).Utmify.sendEvent("ViewContent", { content_name: "Pitch Reached" });
       }
     };
 
-    window.addEventListener('message', handleMessage);
-
-    // Fallback timer - show CTA after 6:30 minutes (390 seconds) if VTurb event is not detected
-    // Adding extra 10 seconds to match the VTurb button appearance time
-    const fallbackTimer = setTimeout(() => {
-      if (!pitchReached.current) {
-        pitchReached.current = true;
-        onPitchTimeReached?.();
+    // Use MutationObserver to detect when VTurb button appears in the DOM
+    // This ensures perfect sync with the actual button visibility
+    const observer = new MutationObserver((mutations) => {
+      if (pitchReached.current) return;
+      
+      // Look for VTurb CTA button elements
+      const vturbButton = document.querySelector('[class*="smartplayer-call-action"], [class*="cta-button"], .smartplayer-cta, [data-cta], a[href*="checkout"], button[class*="cta"]');
+      
+      // Also check for elements inside the vturb player that indicate CTA
+      const playerContainer = document.getElementById('vid-695da2ecd57dbf7832670264');
+      if (playerContainer) {
+        const ctaElements = playerContainer.querySelectorAll('a, button');
+        for (const el of ctaElements) {
+          const style = window.getComputedStyle(el);
+          // Check if element is visible and likely a CTA
+          if (style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0') {
+            const text = el.textContent?.toLowerCase() || '';
+            const href = (el as HTMLAnchorElement).href?.toLowerCase() || '';
+            if (text.includes('comprar') || text.includes('quero') || text.includes('garantir') || 
+                href.includes('checkout') || href.includes('pay') || href.includes('compra')) {
+              triggerPitchReached();
+              return;
+            }
+          }
+        }
       }
-    }, 390000); // 6 minutes and 30 seconds (6:20 + 10s buffer)
+      
+      if (vturbButton) {
+        const style = window.getComputedStyle(vturbButton);
+        if (style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0') {
+          triggerPitchReached();
+        }
+      }
+    });
+
+    // Start observing the document for changes
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['style', 'class']
+    });
+
+    // Fallback timer - show CTA after 7 minutes if button detection fails
+    const fallbackTimer = setTimeout(() => {
+      triggerPitchReached();
+    }, 420000); // 7 minutes as absolute fallback
 
     return () => {
-      window.removeEventListener('message', handleMessage);
+      observer.disconnect();
       clearTimeout(fallbackTimer);
     };
   }, [onPitchTimeReached]);
