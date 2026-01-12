@@ -258,11 +258,13 @@ export default function Index() {
           </div>
         </section>
 
-        {/* CTA Section - Hidden until pitch time */}
-        <section 
+        {/* CTA Section - pré-montada para aparecer no exato momento do CTA do player */}
+        <section
+          aria-hidden={!ctaVisible}
           className={cn(
             "py-6 px-4",
-            !ctaVisible && "hidden"
+            !ctaVisible &&
+              "pointer-events-none invisible absolute -left-[99999px] top-0 h-px w-px overflow-hidden opacity-0"
           )}
         >
           <div className="container max-w-lg mx-auto space-y-5">
@@ -435,11 +437,13 @@ export default function Index() {
           </div>
         </section>
 
-        {/* Comparison Section - Hidden until pitch time */}
-        <section 
+        {/* Comparison Section - pré-montada para aparecer no exato momento do CTA do player */}
+        <section
+          aria-hidden={!ctaVisible}
           className={cn(
             "py-8 px-4",
-            !ctaVisible && "hidden"
+            !ctaVisible &&
+              "pointer-events-none invisible absolute -left-[99999px] top-0 h-px w-px overflow-hidden opacity-0"
           )}
         >
           <div className="container max-w-lg mx-auto space-y-5">
@@ -463,7 +467,13 @@ export default function Index() {
 
               {/* Rows */}
               {comparisonData.map((row, index) => (
-                <div key={index} className={cn("grid grid-cols-3", index !== comparisonData.length - 1 && "border-b border-border")}>
+                <div
+                  key={index}
+                  className={cn(
+                    "grid grid-cols-3",
+                    index !== comparisonData.length - 1 && "border-b border-border"
+                  )}
+                >
                   <div className="p-3 flex items-center">
                     <span className="text-small text-foreground">{row.criteria}</span>
                   </div>
@@ -511,11 +521,13 @@ export default function Index() {
           </div>
         </section>
 
-        {/* Final CTA Section - Hidden until pitch time */}
-        <section 
+        {/* Final CTA Section - pré-montada para aparecer no exato momento do CTA do player */}
+        <section
+          aria-hidden={!ctaVisible}
           className={cn(
             "py-8 px-4",
-            !ctaVisible && "hidden"
+            !ctaVisible &&
+              "pointer-events-none invisible absolute -left-[99999px] top-0 h-px w-px overflow-hidden opacity-0"
           )}
         >
           <div className="container max-w-lg mx-auto space-y-5">
@@ -552,9 +564,7 @@ export default function Index() {
             </div>
 
             {/* Final CTA */}
-            <CTAButton onClick={handleCTAClick}>
-              QUERO COMEÇAR AGORA
-            </CTAButton>
+            <CTAButton onClick={handleCTAClick}>QUERO COMEÇAR AGORA</CTAButton>
 
             <p className="text-center text-small text-muted-foreground whitespace-nowrap">
               🔒 Compra segura · Acesso imediato
