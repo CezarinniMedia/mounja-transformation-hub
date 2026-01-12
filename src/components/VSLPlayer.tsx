@@ -23,6 +23,7 @@ export function VSLPlayer({ onPitchTimeReached }: VSLPlayerProps) {
       if (pitchReached.current) return;
       pitchReached.current = true;
       
+      console.log('[VTurb Debug] Pitch reached triggered!');
       onPitchTimeReached?.();
 
       // Track with Facebook Pixel
@@ -35,58 +36,67 @@ export function VSLPlayer({ onPitchTimeReached }: VSLPlayerProps) {
       }
     };
 
-    // Use MutationObserver to detect when VTurb button appears in the DOM
-    // This ensures perfect sync with the actual button visibility
-    const observer = new MutationObserver((mutations) => {
-      if (pitchReached.current) return;
+    // Check for VTurb CTA button inside the player container only
+    const checkForVturbButton = () => {
+      if (pitchReached.current) return false;
       
-      // Look for VTurb CTA button elements - check multiple possible selectors
-      const vturbButton = document.querySelector('[class*="smartplayer-call-action"], [class*="cta-button"], .smartplayer-cta, [data-cta]');
-      
-      // Also check for elements inside the vturb player that indicate CTA
       const playerContainer = document.getElementById('vid-695da2ecd57dbf7832670264');
-      if (playerContainer) {
-        const ctaElements = playerContainer.querySelectorAll('a, button');
-        for (const el of ctaElements) {
-          const style = window.getComputedStyle(el);
-          // Check if element is visible and likely a CTA
-          if (style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0') {
-            const text = el.textContent?.toLowerCase() || '';
-            const href = (el as HTMLAnchorElement).href?.toLowerCase() || '';
-            if (text.includes('comprar') || text.includes('quero') || text.includes('garantir') || 
-                href.includes('checkout') || href.includes('pay') || href.includes('compra')) {
-              console.log('[VTurb Debug] CTA button detected inside player:', el);
-              triggerPitchReached();
-              return;
-            }
-          }
+      if (!playerContainer) return false;
+      
+      // Look specifically for VTurb's CTA button class inside the player
+      const vturbCta = playerContainer.querySelector('.smartplayer-call-action, [class*="smartplayer-call-action"]');
+      
+      if (vturbCta) {
+        const style = window.getComputedStyle(vturbCta);
+        if (style.display !== 'none' && style.visibility !== 'hidden' && parseFloat(style.opacity) > 0) {
+          console.log('[VTurb Debug] CTA button detected:', vturbCta);
+          triggerPitchReached();
+          return true;
         }
       }
       
-      if (vturbButton) {
-        const style = window.getComputedStyle(vturbButton);
-        if (style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0') {
-          console.log('[VTurb Debug] CTA button detected via selector:', vturbButton);
-          triggerPitchReached();
-        }
-      }
-    });
+      return false;
+    };
 
-    // Start observing the document for changes
-    observer.observe(document.body, {
-      childList: true,
-      subtree: true,
-      attributes: true,
-      attributeFilter: ['style', 'class']
-    });
+    // Use MutationObserver ONLY on the player container once it exists
+    let observer: MutationObserver | null = null;
+    let setupTimeoutId: NodeJS.Timeout | null = null;
+    
+    const setupObserver = () => {
+      const playerContainer = document.getElementById('vid-695da2ecd57dbf7832670264');
+      if (!playerContainer) {
+        // Player not ready yet, retry
+        setupTimeoutId = setTimeout(setupObserver, 500);
+        return;
+      }
+      
+      // First check if button is already there
+      if (checkForVturbButton()) return;
+      
+      observer = new MutationObserver(() => {
+        checkForVturbButton();
+      });
+      
+      observer.observe(playerContainer, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        attributeFilter: ['style', 'class']
+      });
+    };
+
+    // Start setup after a small delay to ensure player starts loading
+    setupTimeoutId = setTimeout(setupObserver, 1000);
 
     // Fallback timer - show CTA after 7 minutes if button detection fails
     const fallbackTimer = setTimeout(() => {
+      console.log('[VTurb Debug] Fallback timer triggered');
       triggerPitchReached();
     }, 420000); // 7 minutes as absolute fallback
 
     return () => {
-      observer.disconnect();
+      if (observer) observer.disconnect();
+      if (setupTimeoutId) clearTimeout(setupTimeoutId);
       clearTimeout(fallbackTimer);
     };
   }, [onPitchTimeReached]);
