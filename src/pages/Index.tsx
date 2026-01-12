@@ -178,7 +178,12 @@ const comparisonData = [
 export default function Index() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [ctaVisible, setCtaVisible] = useState(false);
+  
+  // Check if CTA was already shown in this session (for when user navigates back from checkout)
+  const [ctaVisible, setCtaVisible] = useState(() => {
+    return sessionStorage.getItem("cta_visible") === "true";
+  });
+
   useEffect(() => {
     // Track ViewContent after 30 seconds
     const timer = setTimeout(() => {
@@ -189,7 +194,9 @@ export default function Index() {
   }, []);
 
   const handlePitchTimeReached = () => {
+    // Only save to sessionStorage when the ACTUAL VTurb event fires
     setCtaVisible(true);
+    sessionStorage.setItem("cta_visible", "true");
   };
 
   const handleCTAClick = () => {
