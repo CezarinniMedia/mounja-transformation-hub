@@ -178,11 +178,7 @@ const comparisonData = [
 export default function Index() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [ctaVisible, setCtaVisible] = useState(() => {
-    // Check sessionStorage to persist CTA visibility across navigation
-    return sessionStorage.getItem("cta_visible") === "true";
-  });
-
+  const [ctaVisible, setCtaVisible] = useState(false);
   useEffect(() => {
     // Track ViewContent after 30 seconds
     const timer = setTimeout(() => {
@@ -194,7 +190,6 @@ export default function Index() {
 
   const handlePitchTimeReached = () => {
     setCtaVisible(true);
-    sessionStorage.setItem("cta_visible", "true");
   };
 
   const handleCTAClick = () => {
