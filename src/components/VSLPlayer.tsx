@@ -71,16 +71,20 @@ export function VSLPlayer({ onPitchTimeReached }: VSLPlayerProps) {
 
       if (hasCtaShow(data) && !pitchReached.current) {
         pitchReached.current = true;
-        onPitchTimeReached?.();
+        
+        // Add 10 second delay to sync with VTurb button appearing
+        setTimeout(() => {
+          onPitchTimeReached?.();
 
-        // Track with Facebook Pixel
-        if (typeof window !== "undefined" && (window as any).fbq) {
-          (window as any).fbq("track", "ViewContent", { content_name: "Pitch Reached" });
-        }
-        // Track with UTMify
-        if (typeof window !== "undefined" && (window as any).Utmify?.sendEvent) {
-          (window as any).Utmify.sendEvent("ViewContent", { content_name: "Pitch Reached" });
-        }
+          // Track with Facebook Pixel
+          if (typeof window !== "undefined" && (window as any).fbq) {
+            (window as any).fbq("track", "ViewContent", { content_name: "Pitch Reached" });
+          }
+          // Track with UTMify
+          if (typeof window !== "undefined" && (window as any).Utmify?.sendEvent) {
+            (window as any).Utmify.sendEvent("ViewContent", { content_name: "Pitch Reached" });
+          }
+        }, 10000); // 10 seconds delay
       }
     };
 
