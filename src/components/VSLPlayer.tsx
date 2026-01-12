@@ -47,12 +47,18 @@ export function VSLPlayer({ onPitchTimeReached }: VSLPlayerProps) {
       const vturbCta = playerContainer.querySelector('.smartplayer-call-action, [class*="smartplayer-call-action"]');
       
       if (vturbCta) {
-        const style = window.getComputedStyle(vturbCta);
-        if (style.display !== 'none' && style.visibility !== 'hidden' && parseFloat(style.opacity) > 0) {
-          console.log('[VTurb Debug] CTA button detected:', vturbCta);
+        const el = vturbCta as HTMLElement;
+        const style = window.getComputedStyle(el);
+        const hasBox = el.getClientRects().length > 0;
+
+        // Be less strict here to avoid firing late due to opacity animations
+        if (style.display !== 'none' && style.visibility !== 'hidden' && hasBox) {
+          console.log('[VTurb Debug] CTA element detected (visible box):', vturbCta);
           triggerPitchReached();
           return true;
         }
+
+        // If element exists but not yet visibly measurable, keep waiting
       }
       
       return false;
