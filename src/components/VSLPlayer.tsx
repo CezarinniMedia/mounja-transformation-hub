@@ -40,8 +40,8 @@ export function VSLPlayer({ onPitchTimeReached }: VSLPlayerProps) {
     const observer = new MutationObserver((mutations) => {
       if (pitchReached.current) return;
       
-      // Look for VTurb CTA button elements
-      const vturbButton = document.querySelector('[class*="smartplayer-call-action"], [class*="cta-button"], .smartplayer-cta, [data-cta], a[href*="checkout"], button[class*="cta"]');
+      // Look for VTurb CTA button elements - check multiple possible selectors
+      const vturbButton = document.querySelector('[class*="smartplayer-call-action"], [class*="cta-button"], .smartplayer-cta, [data-cta]');
       
       // Also check for elements inside the vturb player that indicate CTA
       const playerContainer = document.getElementById('vid-695da2ecd57dbf7832670264');
@@ -55,6 +55,7 @@ export function VSLPlayer({ onPitchTimeReached }: VSLPlayerProps) {
             const href = (el as HTMLAnchorElement).href?.toLowerCase() || '';
             if (text.includes('comprar') || text.includes('quero') || text.includes('garantir') || 
                 href.includes('checkout') || href.includes('pay') || href.includes('compra')) {
+              console.log('[VTurb Debug] CTA button detected inside player:', el);
               triggerPitchReached();
               return;
             }
@@ -65,6 +66,7 @@ export function VSLPlayer({ onPitchTimeReached }: VSLPlayerProps) {
       if (vturbButton) {
         const style = window.getComputedStyle(vturbButton);
         if (style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0') {
+          console.log('[VTurb Debug] CTA button detected via selector:', vturbButton);
           triggerPitchReached();
         }
       }
