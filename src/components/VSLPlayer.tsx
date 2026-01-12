@@ -43,26 +43,56 @@ export function VSLPlayer({ onPitchTimeReached }: VSLPlayerProps) {
       const rect = el.getBoundingClientRect();
 
       const hasBox = rect.width > 0 && rect.height > 0;
-      const isDisplayed = style.display !== 'none';
-      const isVisible = style.visibility !== 'hidden';
+      const isDisplayed = style.display !== "none";
+      const isVisible = style.visibility !== "hidden";
 
       // IMPORTANT: VTurb often animates opacity from 0 → 1.
       // To fire at the exact moment it becomes visible, we use a very small threshold.
-      const opacity = Number.parseFloat(style.opacity || '1');
+      const opacity = Number.parseFloat(style.opacity || "1");
       const hasOpacity = Number.isFinite(opacity) ? opacity > 0.01 : true;
 
       return isDisplayed && isVisible && hasBox && hasOpacity;
+    };
+
+    const getSearchRoots = (playerContainer: HTMLElement) => {
+      const roots: Array<ParentNode> = [playerContainer];
+      const shadowRoot = (playerContainer as any).shadowRoot as ShadowRoot | null | undefined;
+      if (shadowRoot) roots.push(shadowRoot);
+      return roots;
+    };
+
+    const findVturbCtaElement = (playerContainer: HTMLElement) => {
+      const roots = getSearchRoots(playerContainer);
+
+      // VTurb can render CTA in light DOM OR inside the web-component shadow DOM.
+      // We search broadly but still scoped to the player container roots.
+      const selectors = [
+        ".smartplayer-call-action",
+        "[class*=\"smartplayer-call-action\"]",
+        "[class*=\"call-action\"]",
+        "[class*=\"cta\"]",
+        "[data-testid*=\"call\" i]",
+        "[data-testid*=\"cta\" i]",
+      ];
+
+      for (const root of roots) {
+        for (const sel of selectors) {
+          const el = root.querySelector(sel) as HTMLElement | null;
+          if (el) return el;
+        }
+      }
+
+      return null;
     };
 
     // Check for VTurb CTA button inside the player container only
     const checkForVturbButton = () => {
       if (pitchReached.current) return false;
 
-      const playerContainer = document.getElementById('vid-695da2ecd57dbf7832670264');
+      const playerContainer = document.getElementById("vid-695da2ecd57dbf7832670264");
       if (!playerContainer) return false;
 
-      // Look specifically for VTurb's CTA button class inside the player
-      const vturbCta = playerContainer.querySelector('.smartplayer-call-action, [class*="smartplayer-call-action"]');
+      const vturbCta = findVturbCtaElement(playerContainer);
       if (!vturbCta) return false;
 
       const el = vturbCta as HTMLElement;
@@ -81,7 +111,7 @@ export function VSLPlayer({ onPitchTimeReached }: VSLPlayerProps) {
         const tick = () => {
           if (pitchReached.current) return;
           if (isElementVisibleNow(el)) {
-            console.log('[VTurb Debug] CTA became visible:', el);
+            console.log("[VTurb Debug] CTA became visible:", el);
             triggerPitchReached();
             return;
           }
@@ -93,7 +123,7 @@ export function VSLPlayer({ onPitchTimeReached }: VSLPlayerProps) {
       } else {
         // CTA element is the same; do a quick visibility check.
         if (isElementVisibleNow(el)) {
-          console.log('[VTurb Debug] CTA visible (same el):', el);
+          console.log("[VTurb Debug] CTA visible (same el):", el);
           triggerPitchReached();
           return true;
         }
@@ -102,31 +132,42 @@ export function VSLPlayer({ onPitchTimeReached }: VSLPlayerProps) {
       return false;
     };
 
-    // Use MutationObserver ONLY on the player container once it exists
+    // Use MutationObserver on the player container and (if available) its shadowRoot
     let observer: MutationObserver | null = null;
     let setupTimeoutId: NodeJS.Timeout | null = null;
-    
+
     const setupObserver = () => {
-      const playerContainer = document.getElementById('vid-695da2ecd57dbf7832670264');
+      const playerContainer = document.getElementById("vid-695da2ecd57dbf7832670264");
       if (!playerContainer) {
-        // Player not ready yet, retry faster
         setupTimeoutId = setTimeout(setupObserver, 100);
         return;
       }
-      
+
       // First check if button is already there
       if (checkForVturbButton()) return;
-      
+
+      const shadowRoot = (playerContainer as any).shadowRoot as ShadowRoot | null | undefined;
+
       observer = new MutationObserver(() => {
         checkForVturbButton();
       });
-      
+
       observer.observe(playerContainer, {
         childList: true,
         subtree: true,
         attributes: true,
-        attributeFilter: ['style', 'class']
+        attributeFilter: ["style", "class"],
       });
+
+      // If CTA is inside shadow DOM, we must observe it too.
+      if (shadowRoot) {
+        observer.observe(shadowRoot, {
+          childList: true,
+          subtree: true,
+          attributes: true,
+          attributeFilter: ["style", "class"],
+        });
+      }
     };
 
     // Start setup immediately
