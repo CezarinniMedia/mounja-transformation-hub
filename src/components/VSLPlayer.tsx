@@ -7,6 +7,8 @@ interface VSLPlayerProps {
 export function VSLPlayer({ onPitchTimeReached }: VSLPlayerProps) {
   const scriptLoaded = useRef(false);
   const pitchReached = useRef(false);
+  const watchedCtaEl = useRef<HTMLElement | null>(null);
+  const visibilityRafId = useRef<number | null>(null);
 
   useEffect(() => {
     // Load VTurb script
@@ -22,7 +24,7 @@ export function VSLPlayer({ onPitchTimeReached }: VSLPlayerProps) {
     const triggerPitchReached = () => {
       if (pitchReached.current) return;
       pitchReached.current = true;
-      
+
       console.log('[VTurb Debug] Pitch reached triggered!');
       onPitchTimeReached?.();
 
@@ -36,31 +38,67 @@ export function VSLPlayer({ onPitchTimeReached }: VSLPlayerProps) {
       }
     };
 
+    const isElementVisibleNow = (el: HTMLElement) => {
+      const style = window.getComputedStyle(el);
+      const rect = el.getBoundingClientRect();
+
+      const hasBox = rect.width > 0 && rect.height > 0;
+      const isDisplayed = style.display !== 'none';
+      const isVisible = style.visibility !== 'hidden';
+
+      // IMPORTANT: VTurb often animates opacity from 0 → 1.
+      // To fire at the exact moment it becomes visible, we use a very small threshold.
+      const opacity = Number.parseFloat(style.opacity || '1');
+      const hasOpacity = Number.isFinite(opacity) ? opacity > 0.01 : true;
+
+      return isDisplayed && isVisible && hasBox && hasOpacity;
+    };
+
     // Check for VTurb CTA button inside the player container only
     const checkForVturbButton = () => {
       if (pitchReached.current) return false;
-      
+
       const playerContainer = document.getElementById('vid-695da2ecd57dbf7832670264');
       if (!playerContainer) return false;
-      
+
       // Look specifically for VTurb's CTA button class inside the player
       const vturbCta = playerContainer.querySelector('.smartplayer-call-action, [class*="smartplayer-call-action"]');
-      
-      if (vturbCta) {
-        const el = vturbCta as HTMLElement;
-        const style = window.getComputedStyle(el);
-        const hasBox = el.getClientRects().length > 0;
+      if (!vturbCta) return false;
 
-        // Be less strict here to avoid firing late due to opacity animations
-        if (style.display !== 'none' && style.visibility !== 'hidden' && hasBox) {
-          console.log('[VTurb Debug] CTA element detected (visible box):', vturbCta);
+      const el = vturbCta as HTMLElement;
+
+      // If we found a (new) CTA element, start a high-frequency watcher so we trigger
+      // at the *exact* moment it becomes visible.
+      if (watchedCtaEl.current !== el) {
+        watchedCtaEl.current = el;
+
+        // Cancel previous watcher loop (if any)
+        if (visibilityRafId.current != null) {
+          cancelAnimationFrame(visibilityRafId.current);
+          visibilityRafId.current = null;
+        }
+
+        const tick = () => {
+          if (pitchReached.current) return;
+          if (isElementVisibleNow(el)) {
+            console.log('[VTurb Debug] CTA became visible:', el);
+            triggerPitchReached();
+            return;
+          }
+          visibilityRafId.current = requestAnimationFrame(tick);
+        };
+
+        // Run once immediately (often same frame the node appears)
+        tick();
+      } else {
+        // CTA element is the same; do a quick visibility check.
+        if (isElementVisibleNow(el)) {
+          console.log('[VTurb Debug] CTA visible (same el):', el);
           triggerPitchReached();
           return true;
         }
-
-        // If element exists but not yet visibly measurable, keep waiting
       }
-      
+
       return false;
     };
 
@@ -103,6 +141,7 @@ export function VSLPlayer({ onPitchTimeReached }: VSLPlayerProps) {
     return () => {
       if (observer) observer.disconnect();
       if (setupTimeoutId) clearTimeout(setupTimeoutId);
+      if (visibilityRafId.current != null) cancelAnimationFrame(visibilityRafId.current);
       clearTimeout(fallbackTimer);
     };
   }, [onPitchTimeReached]);
