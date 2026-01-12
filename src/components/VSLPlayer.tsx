@@ -65,8 +65,8 @@ export function VSLPlayer({ onPitchTimeReached }: VSLPlayerProps) {
     const setupObserver = () => {
       const playerContainer = document.getElementById('vid-695da2ecd57dbf7832670264');
       if (!playerContainer) {
-        // Player not ready yet, retry
-        setupTimeoutId = setTimeout(setupObserver, 500);
+        // Player not ready yet, retry faster
+        setupTimeoutId = setTimeout(setupObserver, 100);
         return;
       }
       
@@ -85,8 +85,8 @@ export function VSLPlayer({ onPitchTimeReached }: VSLPlayerProps) {
       });
     };
 
-    // Start setup after a small delay to ensure player starts loading
-    setupTimeoutId = setTimeout(setupObserver, 1000);
+    // Start setup immediately
+    setupObserver();
 
     // Fallback timer - show CTA after 7 minutes if button detection fails
     const fallbackTimer = setTimeout(() => {
