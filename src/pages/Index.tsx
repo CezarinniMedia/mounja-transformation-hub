@@ -180,8 +180,8 @@ export default function Index() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Adiantando 20s para compensar o atraso reportado
-  const { pitchReached: pitchReachedEarly } = useVturbProgress({ earlyOffsetSeconds: 20 });
+  // 5 segundos DEPOIS do pitch time original
+  const { pitchReached: pitchReachedEarly } = useVturbProgress({ earlyOffsetSeconds: -5 });
 
   // Check if CTA was already shown in this session (for when user navigates back from checkout)
   const [ctaVisible, setCtaVisible] = useState(() => {
