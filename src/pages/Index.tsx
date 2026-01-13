@@ -28,8 +28,6 @@ import {
   Clock,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useVturbProgress } from "@/hooks/useVturbProgress";
-
 import testimonial1 from "@/assets/testimonial-1.jpeg";
 import testimonial2 from "@/assets/testimonial-2.jpeg";
 import testimonial3 from "@/assets/testimonial-3.jpeg";
@@ -180,8 +178,8 @@ export default function Index() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // 5 segundos DEPOIS do pitch time original
-  const { pitchReached: pitchReachedEarly } = useVturbProgress({ earlyOffsetSeconds: -5 });
+  // Mostra o CTA apenas quando o botão de compra do player (VTurb) ficar visível
+  // (não baseado no tempo de abertura da página)
 
   // Check if CTA was already shown in this session (for when user navigates back from checkout)
   const [ctaVisible, setCtaVisible] = useState(() => {
@@ -205,12 +203,8 @@ export default function Index() {
     return () => clearTimeout(timer);
   }, []);
 
-  useEffect(() => {
-    if (pitchReachedEarly) revealCta();
-  }, [pitchReachedEarly, revealCta]);
-
   const handlePitchTimeReached = () => {
-    // Source 1: detecção do CTA do VTurb (quando funcionar no timing perfeito)
+    // Fonte: detecção do CTA do VTurb (momento que o botão aparece)
     revealCta();
   };
 
