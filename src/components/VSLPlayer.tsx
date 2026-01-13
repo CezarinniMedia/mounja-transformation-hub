@@ -64,21 +64,22 @@ export function VSLPlayer({ onPitchTimeReached }: VSLPlayerProps) {
     const findVturbCtaElement = (playerContainer: HTMLElement) => {
       const roots = getSearchRoots(playerContainer);
 
-      // VTurb can render CTA in light DOM OR inside the web-component shadow DOM.
-      // We search broadly but still scoped to the player container roots.
+      // VTurb renders CTA with very specific class names - use ONLY these
+      // to avoid matching other elements on the page
       const selectors = [
         ".smartplayer-call-action",
-        "[class*=\"smartplayer-call-action\"]",
-        "[class*=\"call-action\"]",
-        "[class*=\"cta\"]",
-        "[data-testid*=\"call\" i]",
-        "[data-testid*=\"cta\" i]",
+        "[class*='smartplayer-call-action']",
+        "a.smartplayer-call-action",
+        "button.smartplayer-call-action",
       ];
 
       for (const root of roots) {
         for (const sel of selectors) {
           const el = root.querySelector(sel) as HTMLElement | null;
-          if (el) return el;
+          if (el) {
+            console.log('[VTurb Debug] Found CTA element with selector:', sel, el);
+            return el;
+          }
         }
       }
 
