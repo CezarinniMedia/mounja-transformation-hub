@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -28,6 +28,7 @@ import {
   Clock,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useVturbProgress } from "@/hooks/useVturbProgress";
 
 import testimonial1 from "@/assets/testimonial-1.jpeg";
 import testimonial2 from "@/assets/testimonial-2.jpeg";
@@ -178,11 +179,22 @@ const comparisonData = [
 export default function Index() {
   const navigate = useNavigate();
   const location = useLocation();
-  
+
+  // Adiantando 20s para compensar o atraso reportado
+  const { pitchReached: pitchReachedEarly } = useVturbProgress({ earlyOffsetSeconds: 20 });
+
   // Check if CTA was already shown in this session (for when user navigates back from checkout)
   const [ctaVisible, setCtaVisible] = useState(() => {
     return sessionStorage.getItem("cta_visible") === "true";
   });
+
+  const revealCta = useMemo(
+    () => () => {
+      setCtaVisible(true);
+      sessionStorage.setItem("cta_visible", "true");
+    },
+    []
+  );
 
   useEffect(() => {
     // Track ViewContent after 30 seconds
@@ -193,10 +205,13 @@ export default function Index() {
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    if (pitchReachedEarly) revealCta();
+  }, [pitchReachedEarly, revealCta]);
+
   const handlePitchTimeReached = () => {
-    // Only save to sessionStorage when the ACTUAL VTurb event fires
-    setCtaVisible(true);
-    sessionStorage.setItem("cta_visible", "true");
+    // Source 1: detecção do CTA do VTurb (quando funcionar no timing perfeito)
+    revealCta();
   };
 
   const handleCTAClick = () => {
@@ -204,6 +219,7 @@ export default function Index() {
     // Preserve UTMs/query string when going to /checkout (important for attribution)
     navigate({ pathname: "/checkout", search: location.search });
   };
+
 
   return (
     <div className="min-h-screen bg-background">
