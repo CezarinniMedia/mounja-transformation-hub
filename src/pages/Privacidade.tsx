@@ -127,7 +127,7 @@ export default function Privacidade() {
                 </h2>
                 <p className="text-muted-foreground leading-relaxed">
                   Para exercer seus direitos ou esclarecer dúvidas sobre esta Política de Privacidade, 
-                  entre em contato através do email: suporte@mounjanatural.com.br
+                  entre em contato através do email: contato@mounjanatural.com.br
                 </p>
               </div>
             </section>

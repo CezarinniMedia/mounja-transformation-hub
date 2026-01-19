@@ -107,7 +107,7 @@ export default function Termos() {
                 </h2>
                 <p className="text-muted-foreground leading-relaxed">
                   Para dúvidas sobre estes Termos de Uso, entre em contato através do email: 
-                  suporte@mounjanatural.com.br
+                  contato@mounjanatural.com.br
                 </p>
               </div>
             </section>
