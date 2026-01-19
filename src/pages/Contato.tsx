@@ -58,7 +58,7 @@ export default function Contato() {
               </div>
               <div>
                 <p className="font-medium text-foreground">Email</p>
-                <p className="text-muted-foreground">suporte@mounjanatural.com.br</p>
+                <p className="text-muted-foreground">contato@mounjanatural.com.br</p>
               </div>
             </div>
 
@@ -169,7 +169,7 @@ export default function Contato() {
               },
               {
                 q: "Como solicitar reembolso?",
-                a: "Envie um email para suporte@mounjanatural.com.br com o assunto 'Reembolso' e seu email de compra.",
+                a: "Envie um email para contato@mounjanatural.com.br com o assunto 'Reembolso' e seu email de compra.",
               },
               {
                 q: "Posso acessar pelo celular?",

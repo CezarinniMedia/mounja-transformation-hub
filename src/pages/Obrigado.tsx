@@ -128,7 +128,7 @@ export default function Obrigado() {
               Dúvidas? Estamos aqui!
             </h3>
             <div className="text-muted-foreground">
-              <p>📧 mounjanatural@gmail.com</p>
+              <p>📧 contato@mounjanatural.com.br</p>
             </div>
           </section>
         </div>
